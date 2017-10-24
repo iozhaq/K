@@ -4,30 +4,57 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kaishengit.mapper.UserMapper">
 
-    <resultMap id="userMap" type="user">
+    <resultMap id="baseMap" type="com.kaishengit.entity.User">
         <id column="id" property="id"/>
         <result column="user_name" property="userName"/>
         <result column="address" property="address"/>
         <result column="password" property="password"/>
         <result column="dept_id" property="deptId"/>
+    </resultMap>
+
+    <resultMap id="userMap" type="user" extends="baseMap">
         <association property="dept" javaType="com.kaishengit.entity.Dept">
             <id column="dept_id" property="id"/>
             <result column="dept_name" property="deptName"/>
         </association>
     </resultMap>
 
-    <select id="findById" resultType="user">
+    <select id="findById" resultMap="userMap">
         SELECT
             t_user.id,
             user_name,
             address,
             PASSWORD,
             dept_id,
-            t_dept.id as 'dept.id',
-            dept_name as 'dept.deptName'
+            t_dept.id as 'dept_id',
+            dept_name
         FROM
             t_user
         LEFT JOIN t_dept ON t_user.dept_id = t_dept.id
+        WHERE
+            t_user.id = #{userId}
+    </select>
+
+    <resultMap id="userWithTagMap" type="com.kaishengit.entity.User" extends="baseMap">
+        <collection property="tagList" ofType="com.kaishengit.entity.Tag">
+            <id column="tag_id" property="id"/>
+            <result column="tag_name" property="tagName"/>
+        </collection>
+    </resultMap>
+
+    <select id="findByIdWithTag" parameterType="int" resultMap="userWithTagMap">
+        SELECT
+            t_user.id,
+            user_name,
+            address,
+            PASSWORD,
+            dept_id,
+            t_tag.id AS 'tag_id',
+            tag_name
+        FROM
+            t_user
+        INNER JOIN user_tag ON t_user.id = user_tag.user_id
+        INNER JOIN t_tag ON t_tag.id = user_tag.tag_id
         WHERE
             t_user.id = #{userId}
     </select>

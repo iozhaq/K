@@ -17,4 +17,6 @@ public interface ProductMapper {
                        @Param("size") int size);
     Product findById(Long id);
 
+    int batchSave(@Param("productList") List<Product> productList);
+
 }

@@ -36,6 +36,7 @@
         <mapper resource="mapper/ProductMapper.xml"/>
         <mapper resource="mapper/UserMapper.xml"/>
         <mapper resource="mapper/DeptMapper.xml"/>
+        <mapper resource="mapper/MovieMapper.xml"/>
     </mappers>
 
 </configuration>

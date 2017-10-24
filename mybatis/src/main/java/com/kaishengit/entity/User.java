@@ -1,5 +1,7 @@
 package com.kaishengit.entity;
 
+import java.util.List;
+
 public class User {
 
     private Integer id;
@@ -8,6 +10,7 @@ public class User {
     private String address;
     private Integer deptId;
     private Dept dept;
+    private List<Tag> tagList;
 
     public Integer getId() {
         return id;
@@ -55,6 +58,14 @@ public class User {
 
     public void setDept(Dept dept) {
         this.dept = dept;
+    }
+
+    public List<Tag> getTagList() {
+        return tagList;
+    }
+
+    public void setTagList(List<Tag> tagList) {
+        this.tagList = tagList;
     }
 
     @Override

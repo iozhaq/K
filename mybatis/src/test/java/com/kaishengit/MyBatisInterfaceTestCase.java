@@ -8,6 +8,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -87,6 +88,20 @@ public class MyBatisInterfaceTestCase {
         for(Product product : productList) {
             System.out.println(product);
         }
+    }
+
+    @Test
+    public void batchSave() {
+        ProductMapper productMapper = sqlSession.getMapper(ProductMapper.class);
+
+        Product product1 = new Product("AA",200L);
+        Product product2 = new Product("BB",200L);
+        Product product3 = new Product("CC",200L);
+
+        List<Product> productList = Arrays.asList(product1,product2,product3);
+        productMapper.batchSave(productList);
+
+        sqlSession.commit();
     }
 
 }

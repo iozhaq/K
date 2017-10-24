@@ -1,5 +1,6 @@
 package com.kaishengit;
 
+import com.kaishengit.entity.Tag;
 import com.kaishengit.entity.User;
 import com.kaishengit.mapper.UserMapper;
 import com.kaishengit.util.MyBatisUtil;
@@ -7,6 +8,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.List;
 
 public class UserMapperTestCase {
 
@@ -29,6 +32,17 @@ public class UserMapperTestCase {
         User user = userMapper.findById(18);
         System.out.println(user);
         System.out.println(user.getUserName() + " -> " + user.getDept().getDeptName());
+    }
+
+    @Test
+    public void findByIdWithTag() {
+        User user = userMapper.findByIdWithTag(1);
+        System.out.println(user);
+
+        List<Tag> tagList = user.getTagList();
+        for(Tag tag : tagList) {
+            System.out.println(tag);
+        }
     }
 
 
