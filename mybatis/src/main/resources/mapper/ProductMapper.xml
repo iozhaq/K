@@ -4,15 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kaishengit.mapper.ProductMapper">
 
-    <!--
-        useGeneratedKeys ： 使用自动增长的主键
-        keyProperty ： 将主键值赋给parameterType对应的对象的属性上
-    -->
-    <insert id="save" parameterType="product"
-            useGeneratedKeys="true" keyProperty="id">
-        insert into product(product_name,product_inventory)
-        values(#{productName},#{productInventory})
-    </insert>
 
     <insert id="batchSave">
         insert into product(product_name,product_inventory)
@@ -21,53 +12,5 @@
             (#{product.productName},#{product.productInventory})
         </foreach>
     </insert>
-
-    <resultMap id="productMap" type="com.kaishengit.entity.Product">
-        <id column="id" property="id"/>
-        <result column="product_name" property="productName"/>
-        <result column="product_inventory" property="productInventory"/>
-    </resultMap>
-
-    <select id="findAll" resultMap="productMap">
-        SELECT
-            id,
-            product_name,
-            product_inventory
-        FROM
-            product
-    </select>
-
-    <select id="findById" parameterType="long" resultType="product">
-        SELECT
-            id,
-            product_name,
-            product_inventory
-        FROM
-            product
-        WHERE
-            id = #{id}
-    </select>
-
-    <select id="page" resultType="product">
-        SELECT
-            id,
-            product_name,
-            product_inventory
-        FROM
-            product
-        limit
-            #{offset},#{size}
-    </select>
-
-    <update id="update" parameterType="product">
-        UPDATE product
-        SET product_name = #{productName}, product_inventory =#{productInventory}
-        WHERE
-            id = #{id}
-    </update>
-
-    <delete id="delete" parameterType="long">
-        DELETE FROM product WHERE id = #{id}
-    </delete>
 
 </mapper>

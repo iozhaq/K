@@ -71,7 +71,7 @@ public class MyBatisInterfaceTestCase {
     @Test
     public void delete() {
         ProductMapper productMapper = sqlSession.getMapper(ProductMapper.class);
-        productMapper.delete(9L);
+        productMapper.delete(23L);
         sqlSession.commit();
     }
 

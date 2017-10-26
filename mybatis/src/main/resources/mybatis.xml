@@ -34,10 +34,14 @@
     <mappers>
         <!--classpath中的路径-->
         <mapper resource="mapper/ProductMapper.xml"/>
-        <mapper resource="mapper/UserMapper.xml"/>
-        <mapper resource="mapper/DeptMapper.xml"/>
-        <mapper resource="mapper/MovieMapper.xml"/>
-        <mapper resource="mapper/TagMapper.xml"/>
+        <mapper class="com.kaishengit.mapper.UserMapper"/>
+        <mapper class="com.kaishengit.mapper.DeptMapper"/>
+        <mapper class="com.kaishengit.mapper.TagMapper"/>
+        <!-- <mapper resource="mapper/UserMapper.xml"/>
+         <mapper resource="mapper/DeptMapper.xml"/>
+         <mapper resource="mapper/MovieMapper.xml"/>
+         <mapper resource="mapper/TagMapper.xml"/>-->
+        <!--<mapper class="com.kaishengit.mapper.ProductMapper"/>-->
     </mappers>
 
 </configuration>

@@ -73,7 +73,7 @@ public class MyBaitsTestCase {
     @Test
     public void delete() {
         SqlSession sqlSession = MyBatisUtil.getSqlSession();
-        sqlSession.delete("com.kaishengit.mapper.ProductMapper.delete",8L);
+        sqlSession.delete("com.kaishengit.mapper.ProductMapper.delete",20L);
         sqlSession.commit();
         sqlSession.close();
     }
