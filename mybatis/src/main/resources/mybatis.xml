@@ -37,6 +37,7 @@
         <mapper resource="mapper/UserMapper.xml"/>
         <mapper resource="mapper/DeptMapper.xml"/>
         <mapper resource="mapper/MovieMapper.xml"/>
+        <mapper resource="mapper/TagMapper.xml"/>
     </mappers>
 
 </configuration>

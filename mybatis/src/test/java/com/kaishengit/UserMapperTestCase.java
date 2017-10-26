@@ -29,9 +29,15 @@ public class UserMapperTestCase {
 
     @Test
     public void findById() {
-        User user = userMapper.findById(18);
+        User user = userMapper.findById(1);
         System.out.println(user);
         System.out.println(user.getUserName() + " -> " + user.getDept().getDeptName());
+
+        List<Tag> tagList = user.getTagList();
+
+        for(Tag tag : tagList) {
+            System.out.println(tag.getTagName());
+        }
     }
 
     @Test

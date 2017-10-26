@@ -1,6 +1,8 @@
 package com.kaishengit.entity;
 
-public class Dept {
+import java.io.Serializable;
+
+public class Dept implements Serializable {
 
     private Integer id;
     private String deptName;

@@ -4,6 +4,36 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kaishengit.mapper.UserMapper">
 
+    <!--<cache size="4096"/>-->
+    <resultMap id="baseMap" type="com.kaishengit.entity.User">
+        <id column="id" property="id"/>
+        <result column="user_name" property="userName"/>
+        <result column="address" property="address"/>
+        <result column="password" property="password"/>
+        <result column="dept_id" property="deptId"/>
+    </resultMap>
+
+    <resultMap id="userWithDeptMap" type="user" extends="baseMap">
+        <association property="dept" javaType="com.kaishengit.entity.Dept" column="dept_id" select="com.kaishengit.mapper.DeptMapper.findById"/>
+        <collection property="tagList" ofType="com.kaishengit.entity.Tag" column="id" select="com.kaishengit.mapper.TagMapper.findByUserId"/>
+    </resultMap>
+
+    <select id="findById" resultMap="userWithDeptMap">
+        SELECT
+            t_user.id,
+            user_name,
+            address,
+            PASSWORD,
+            dept_id
+        FROM
+          t_user
+        WHERE
+          id = #{id}
+    </select>
+
+
+<!--
+
     <resultMap id="baseMap" type="com.kaishengit.entity.User">
         <id column="id" property="id"/>
         <result column="user_name" property="userName"/>
@@ -19,7 +49,7 @@
         </association>
     </resultMap>
 
-    <select id="findById" resultMap="userMap">
+    <select id="findById" resultMap="userMap" useCache="false">
         SELECT
             t_user.id,
             user_name,
@@ -34,6 +64,8 @@
         WHERE
             t_user.id = #{userId}
     </select>
+
+    <insert id="xx" flushCache="false"></insert>
 
     <resultMap id="userWithTagMap" type="com.kaishengit.entity.User" extends="baseMap">
         <collection property="tagList" ofType="com.kaishengit.entity.Tag">
@@ -58,5 +90,6 @@
         WHERE
             t_user.id = #{userId}
     </select>
+-->
 
 </mapper>
