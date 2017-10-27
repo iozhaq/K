@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <settings>
+        <!--将数据库中下划线风格的命名映射为Java中驼峰命名风格-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
+    <!--别名-->
+    <typeAliases>
+        <!--<typeAlias type="com.kaishengit.entity.Product" alias="Product"/>-->
+        <package name="com.kaishengit.entity"/>
+    </typeAliases>
+
+    <!--分页插件-->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor"></plugin>
+    </plugins>
+
+    <!--配置数据库环境-->
+    <environments default="dev">
+        <environment id="dev">
+            <transactionManager type="JDBC"></transactionManager>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql:///mydb?useSSL=false"/>
+                <property name="username" value="root"/>
+                <property name="password" value="rootroot"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!--配置Mapper文件-->
+    <mappers>
+        <mapper resource="mapper/ProductMapper.xml"/>
+    </mappers>
+
+
+
+</configuration>
