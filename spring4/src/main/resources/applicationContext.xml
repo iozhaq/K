@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="userDao2" class="com.kaishengit.dao.UserDao"/>
+    <!--<alias name="userDao" alias="myDao"/>-->
+    <bean id="userService"
+          class="com.kaishengit.service.impl.UserServiceImpl">
+        <property name="userDao" ref="userDao2"/>
+        <property name="id" value="1001"/>
+        <property name="name" value="Alex"/>
+        <property name="nameList">
+            <list>
+                <value>aaa</value>
+                <value>bbb</value>
+            </list>
+        </property>
+        <property name="userDaoSet">
+            <set>
+                <ref bean="userDao2"/>
+            </set>
+        </property>
+        <property name="userDaoMap">
+            <map>
+                <entry key="userDao1" value-ref="userDao2"/>
+            </map>
+        </property>
+        <property name="properties">
+            <props>
+                <prop key="k1">v1</prop>
+                <prop key="k2">v2</prop>
+            </props>
+        </property>
+    </bean>
+
+
+<!--
+    <bean id="bookService" class="com.kaishengit.service.impl.UserServiceImpl">
+        <property name="userDao">
+            <ref bean="userDao2"/>
+        </property>
+    </bean>
+-->
+
+</beans>
