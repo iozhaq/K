@@ -11,12 +11,21 @@ import java.util.Set;
 public class UserServiceImpl implements UserService {
     @Override
     public void save() {
+       /* if(1==1) {
+            throw new RuntimeException("这是故意引发的异常");
+        }*/
         System.out.println("userservice save");
     }
 
     @Override
     public void update() {
         System.out.println("userservice update");
+    }
+
+    @Override
+    public int count() {
+        System.out.println("userService count");
+        return 100;
     }
 
     /*private UserDao userDao;
