@@ -16,7 +16,6 @@ public class AccessSpring {
         UserServiceImpl userService = (UserServiceImpl) context.getBean("userService");
         userService.save();
 
-
        /* UserDao userDao = (UserDao) context.getBean("userDao");
         UserDao userDao2 = (UserDao) context.getBean("userDao");
 

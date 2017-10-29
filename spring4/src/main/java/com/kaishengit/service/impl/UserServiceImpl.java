@@ -9,45 +9,20 @@ import java.util.Properties;
 import java.util.Set;
 
 public class UserServiceImpl implements UserService {
-
-    private Integer id;
-    private String name;
-    private List<String> nameList;
-    private Set<UserDao> userDaoSet;
-    private Map<String,UserDao> userDaoMap;
-    private Properties properties;
-
-    private UserDao userDao;
-
-    public UserServiceImpl() {
+    @Override
+    public void save() {
+        System.out.println("userservice save");
     }
 
-    public void setUserDao(UserDao userDao) {
+    @Override
+    public void update() {
+        System.out.println("userservice update");
+    }
+
+    /*private UserDao userDao;
+
+    public UserServiceImpl(UserDao userDao) {
         this.userDao = userDao;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setNameList(List<String> nameList) {
-        this.nameList = nameList;
-    }
-
-    public void setUserDaoSet(Set<UserDao> userDaoSet) {
-        this.userDaoSet = userDaoSet;
-    }
-
-    public void setUserDaoMap(Map<String, UserDao> userDaoMap) {
-        this.userDaoMap = userDaoMap;
-    }
-
-    public void setProperties(Properties properties) {
-        this.properties = properties;
     }
 
     @Override
@@ -55,5 +30,5 @@ public class UserServiceImpl implements UserService {
         System.out.println(">>>>>>>>>>>>>>>>>");
         userDao.save();
         System.out.println("<<<<<<<<<<<<<<<<<");
-    }
+    }*/
 }
