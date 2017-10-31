@@ -3,6 +3,7 @@ package com.kaishengit.mapper;
 import com.kaishengit.entity.Kaola;
 import com.kaishengit.entity.KaolaExample;
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface KaolaMapper {
