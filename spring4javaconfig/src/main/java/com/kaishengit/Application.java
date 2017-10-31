@@ -20,13 +20,8 @@ import javax.sql.DataSource;
 @Configuration
 @ComponentScan
 @PropertySource(value = "classpath:config.properties",ignoreResourceNotFound = true)
-@EnableTransactionManagement //开启基于注解的事务
+@EnableTransactionManagement
 public class Application {
-
-   /* @Value("${jdbc.driver}")
-    private String driverClassName;
-    @Value("${jdbc.url}")
-    private String url;*/
 
     @Autowired
     private Environment environment;
