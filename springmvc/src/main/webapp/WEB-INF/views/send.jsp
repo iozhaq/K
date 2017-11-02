@@ -9,8 +9,6 @@
     <title></title>
 </head>
 <body>
-    <h2>Hello,SpringMVC!</h2>
-    <h2>ID : ${id}</h2>
-    <h2>tagId : ${tagId}</h2>
+    <h3>Message -> ${message}</h3>
 </body>
 </html>

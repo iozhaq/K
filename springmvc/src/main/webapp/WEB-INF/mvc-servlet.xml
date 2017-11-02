@@ -12,6 +12,11 @@
 
     <!---->
     <mvc:annotation-driven/>
+    <!--放行静态资源-->
+    <mvc:default-servlet-handler/>
+    <!--<mvc:resources mapping="/static/**" location="/static/"/>-->
+
+
 
     <!--视图解析器-->
     <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
@@ -22,5 +27,11 @@
         <!--视图后缀-->
         <property name="suffix" value=".jsp"/>
     </bean>
+
+    <!--文件上传解析器-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="10485760"/>
+    </bean>
+    <!--<bean class="org.springframework.web.multipart.support.StandardServletMultipartResolver"></bean>-->
 
 </beans>
