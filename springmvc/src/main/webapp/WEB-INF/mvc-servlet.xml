@@ -33,5 +33,14 @@
         <property name="maxUploadSize" value="10485760"/>
     </bean>
     <!--<bean class="org.springframework.web.multipart.support.StandardServletMultipartResolver"></bean>-->
+    
+    <!--拦截器的配置-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.kaishengit.controller.interceptor.MyInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
 
 </beans>

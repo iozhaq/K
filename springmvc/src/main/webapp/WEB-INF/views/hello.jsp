@@ -12,5 +12,7 @@
     <h2>Hello,SpringMVC!</h2>
     <h2>ID : ${id}</h2>
     <h2>tagId : ${tagId}</h2>
+    <h2>Session : ${sessionScope.hello}</h2>
+    <img src="/static/img/2.jpg" width="200" alt="">
 </body>
 </html>

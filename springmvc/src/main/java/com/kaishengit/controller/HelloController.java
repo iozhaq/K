@@ -4,18 +4,27 @@ import com.kaishengit.entity.User;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 @Controller
+//@RestController
 public class HelloController {
 
     //@RequestMapping(value = "/hello",method = {RequestMethod.GET,RequestMethod.POST})
@@ -81,7 +90,7 @@ public class HelloController {
         //判断是否上传了图片
         if(!photo.isEmpty()) {
             System.out.println("文件名称 -> " + photo.getOriginalFilename());
-            System.out.println("文件大小- > " + photo.getSize());
+            System.out.println("文件大小 -> " + photo.getSize());
             System.out.println("MIMEType -> " + photo.getContentType());
 
             try {
@@ -93,6 +102,43 @@ public class HelloController {
 
         redirectAttributes.addFlashAttribute("message","资料审核中");
         return "redirect:/save";
+    }
+
+
+    @GetMapping("/user")
+    @ResponseBody
+    public User findById() {
+        User user = new User();
+        user.setId(105);
+        user.setUserName("刘大力");
+        user.setPassword("123abc");
+        return user;
+    }
+
+    @GetMapping("/users")
+    @ResponseBody
+    public List<User> findAll() {
+        User user = new User();
+        user.setId(105);
+        user.setUserName("刘大力");
+        user.setPassword("123abc");
+
+        User user2 = new User();
+        user2.setId(106);
+        user2.setUserName("赵丽丽");
+        user2.setPassword("123123");
+
+        return Arrays.asList(user,user2);
+    }
+
+    @GetMapping("/session")
+    public String show(HttpServletRequest request,
+                       HttpServletResponse response,
+                       HttpSession session,
+                       @CookieValue("JSESSIONID") String sessionId) {
+        session.setAttribute("hello","SpringMVC");
+        System.out.println("SessionID -> " + sessionId);
+        return "hello";
     }
 
 
