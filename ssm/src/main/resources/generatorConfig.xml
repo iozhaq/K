@@ -31,7 +31,7 @@
         <javaClientGenerator type="XMLMAPPER" targetPackage="com.kaishengit.mapper" targetProject="src/main/java"/>
 
         <!--table的配置-->
-        <table tableName="kaola"/>
+        <table tableName="kaola_type"/>
 
     </context>
 </generatorConfiguration>
