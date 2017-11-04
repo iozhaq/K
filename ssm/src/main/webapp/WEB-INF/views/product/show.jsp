@@ -27,6 +27,7 @@
             <li>市场价： ${kaola.marketPrice}</li>
             <li>考拉价: ${kaola.price}</li>
             <li>评论数量: ${kaola.commentNum}</li>
+            <li>类型 ： ${kaola.kaolaType.typeName}</li>
         </ul>
         <a href="/product">返回列表</a>
     </div>

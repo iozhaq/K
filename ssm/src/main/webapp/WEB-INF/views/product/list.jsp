@@ -12,6 +12,32 @@
 </head>
 <body>
     <div class="container">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">查询</h3>
+            </div>
+            <div class="panel-body">
+                <form class="form-inline">
+                    <input type="text" name="productName" placeholder="商品名称" class="form-control" value="${param.productName}">
+                    <select name="place" class="form-control">
+                        <option value="">--选择产地--</option>
+                        <c:forEach items="${placeList}" var="place">
+                            <option value="${place}" ${param.place == place ? 'selected' : ''}>${place}</option>
+                        </c:forEach>
+                    </select>
+                    <select name="typeId" class="form-control">
+                        <option value="">--选择分类--</option>
+                        <c:forEach items="${typeList}" var="type">
+                            <option value="${type.id}" ${param.typeId == type.id ? 'selected' : ''}>${type.typeName}</option>
+                        </c:forEach>
+                    </select>
+                    <button class="btn btn-default">搜索</button>
+                </form>
+            </div>
+        </div>
+
+
         <c:if test="${not empty message}">
             <div class="alert alert-info">
                 ${message}
@@ -22,6 +48,7 @@
             <thead>
                 <tr>
                     <th>商品名称</th>
+                    <th>分类</th>
                     <th>产地</th>
                     <th>市场价</th>
                     <th>考拉价</th>
@@ -32,6 +59,7 @@
                 <c:forEach items="${pageInfo.list}" var="product">
                     <tr>
                         <td><a href="/product/${product.id}">${product.productName}</a></td>
+                        <td>${product.kaolaType.typeName}</td>
                         <td>${product.place}</td>
                         <td>${product.marketPrice}</td>
                         <td>${product.price}</td>
@@ -57,7 +85,7 @@
                 last:'末页',
                 prev:'上一页',
                 next:'下一页',
-                href:"?p={{number}}"
+                href:"?productName="+encodeURIComponent('${param.productName}')+"&place="+encodeURIComponent('${param.place}')+"&typeId=${param.typeId}&p={{number}}"
             });
         });
     </script>

@@ -1,6 +1,7 @@
 package com.kaishengit.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Maps;
 import com.kaishengit.entity.Kaola;
 import com.kaishengit.service.KaolaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/product")
@@ -25,9 +27,22 @@ public class KaolaController {
 
     @GetMapping
     public String list(@RequestParam(name = "p",required = false,defaultValue = "1") Integer pageNo,
+                       @RequestParam(required = false,defaultValue = "") String productName,
+                       @RequestParam(required = false,defaultValue = "") String place,
+                       @RequestParam(required = false,defaultValue = "") Integer typeId,
                        Model model) {
-        PageInfo<Kaola> pageInfo = kaolaService.findByPageNo(pageNo);
+
+        Map<String,Object> queryParam = Maps.newHashMap();
+        queryParam.put("productName",productName);
+        queryParam.put("place",place);
+        queryParam.put("typeId",typeId);
+
+        PageInfo<Kaola> pageInfo = kaolaService.findByPageNo(pageNo,queryParam);
+
+
         model.addAttribute("pageInfo",pageInfo);
+        model.addAttribute("placeList",kaolaService.findProductPlaceList());
+        model.addAttribute("typeList",kaolaService.findAllType());
         return "product/list";
     }
 

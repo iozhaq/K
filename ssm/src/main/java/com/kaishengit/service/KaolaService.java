@@ -5,6 +5,7 @@ import com.kaishengit.entity.Kaola;
 import com.kaishengit.entity.KaolaType;
 
 import java.util.List;
+import java.util.Map;
 
 
 public interface KaolaService {
@@ -12,6 +13,8 @@ public interface KaolaService {
     Kaola findById(Integer id);
 
     PageInfo<Kaola> findByPageNo(Integer pageNo);
+    PageInfo<Kaola> findByPageNo(Integer pageNo,Map<String,Object> queryParam);
+    List<String> findProductPlaceList();
 
     void save(Kaola kaola);
 

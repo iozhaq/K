@@ -3,6 +3,7 @@ package com.kaishengit.mapper;
 import com.kaishengit.entity.Kaola;
 import com.kaishengit.entity.KaolaExample;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -28,4 +29,8 @@ public interface KaolaMapper {
     int updateByPrimaryKeySelective(Kaola record);
 
     int updateByPrimaryKey(Kaola record);
+
+    List<Kaola> findWithType();
+    List<Kaola> findByQueryParamWithType(Map<String,Object> queryParam);
+    List<String> findAllPlace();
 }

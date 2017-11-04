@@ -17,6 +17,8 @@ public class Kaola {
 
     private Integer typeId;
 
+    private KaolaType kaolaType;
+
     public Integer getId() {
         return id;
     }
@@ -71,6 +73,14 @@ public class Kaola {
 
     public void setTypeId(Integer typeId) {
         this.typeId = typeId;
+    }
+
+    public KaolaType getKaolaType() {
+        return kaolaType;
+    }
+
+    public void setKaolaType(KaolaType kaolaType) {
+        this.kaolaType = kaolaType;
     }
 
     @Override
