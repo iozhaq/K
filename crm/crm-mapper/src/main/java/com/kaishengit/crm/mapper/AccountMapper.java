@@ -28,4 +28,11 @@ public interface AccountMapper {
     int updateByPrimaryKeySelective(Account record);
 
     int updateByPrimaryKey(Account record);
+
+    List<Account> findByDeptId(@Param("accountName") String accountName,
+            @Param("deptId") Integer deptId,
+                               @Param("start") Integer start,
+                               @Param("length") Integer length);
+
+    Long countByDeptId(@Param("deptId") Integer deptId);
 }

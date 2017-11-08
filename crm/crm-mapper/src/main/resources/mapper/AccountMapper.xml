@@ -110,7 +110,7 @@
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{mobile,jdbcType=VARCHAR}
       )
   </insert>
-    <insert id="insertSelective" parameterType="com.kaishengit.crm.entity.Account">
+    <insert id="insertSelective" parameterType="com.kaishengit.crm.entity.Account" useGeneratedKeys="true" keyProperty="id">
         insert into account
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -159,6 +159,65 @@
             <include refid="Example_Where_Clause"/>
         </if>
     </select>
+
+    <resultMap id="AccountWithDeptMap" type="com.kaishengit.crm.entity.Account" extends="BaseResultMap">
+        <collection property="deptList" ofType="com.kaishengit.crm.entity.Dept">
+            <id property="id" column="dept_id"/>
+            <result property="deptName" column="dept_name"/>
+            <result property="pId" column="p_id"/>
+        </collection>
+    </resultMap>
+
+    <select id="findByDeptId" resultMap="AccountWithDeptMap">
+        SELECT
+            account.*, dept.id AS dept_id,
+            dept.dept_name,
+            dept.p_id
+        FROM
+            account
+        INNER JOIN account_dept ON account.id = account_dept.account_id
+        INNER JOIN dept ON account_dept.dept_id = dept.id
+        INNER JOIN (
+            <choose>
+                <when test="deptId != null and deptId != ''">
+                    SELECT
+                      id
+                    FROM
+                      account
+                    INNER JOIN account_dept ON account_dept.account_id = account.id
+                    <where>
+                        account_dept.dept_id = #{deptId}
+                        <if test="accountName != null and accountName != ''">
+                          and user_name like concat('%',#{accountName},'%')
+                        </if>
+                    </where>
+                        LIMIT #{start},#{length}
+                </when>
+                <otherwise>
+                    SELECT
+                      id
+                    FROM
+                      account
+                    <where>
+                        <if test="accountName != null and accountName != ''">
+                            user_name like concat('%',#{accountName},'%')
+                        </if>
+                    </where>
+                      LIMIT #{start},#{length}
+                </otherwise>
+            </choose>
+        ) AS temp ON account.id = temp.id
+        order by account.id desc
+    </select>
+    <select id="countByDeptId" resultType="java.lang.Long">
+        select count(*) from account
+        <if test="deptId != null and deptId != ''">
+            inner join account_dept on account.id = account_dept.account_id
+            where account_dept.dept_id = #{deptId}
+        </if>
+    </select>
+
+
     <update id="updateByExampleSelective" parameterType="map">
         update account
         <set>

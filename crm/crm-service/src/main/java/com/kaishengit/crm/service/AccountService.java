@@ -41,5 +41,28 @@ public interface AccountService {
      * @param queryParam
      * @return
      */
-    PageInfo<Account> pageForAccount(Map<String, Object> queryParam);
+    List<Account> pageForAccount(Map<String, Object> queryParam);
+
+    /**
+     * 根据部门ID获取账号的数量
+     * @param deptId
+     * @return
+     */
+    Long accountCountByDeptId(Integer deptId);
+
+    /**
+     * 添加新的账号
+     * @param userName 账号名称
+     * @param mobile 手机号码
+     * @param password 密码（明文）
+     * @param deptId 所属部门ID，可以多个
+     */
+    void saveNewEmployee(String userName, String mobile, String password, Integer[] deptId) throws ServiceException;
+
+    /**
+     * 根据ID删除账号
+     * @param id
+     * @throws ServiceException
+     */
+    void deleteEmployeeById(Integer id) throws ServiceException;
 }
