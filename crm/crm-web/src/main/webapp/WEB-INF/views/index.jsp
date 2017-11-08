@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -30,15 +31,16 @@
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
-        <p class="login-box-msg">账号或密码错误</p>
-
+        <c:if test="${not empty message}">
+            <p class="login-box-msg">${message}</p>
+        </c:if>
         <form method="post">
             <div class="form-group has-feedback">
-                <input type="tel" class="form-control" name="mobile" placeholder="手机号码">
+                <input type="tel" class="form-control" name="mobile" placeholder="手机号码" value="151">
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <input type="password" name="password" class="form-control" placeholder="密码">
+                <input type="password" name="password" class="form-control" placeholder="密码" value="123123">
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
             <div class="row">

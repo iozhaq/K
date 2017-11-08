@@ -42,6 +42,21 @@ public class HomeController {
         }
     }
 
+    /**
+     * 安全退出
+     * @return
+     */
+    @GetMapping("/logout")
+    public String logout(HttpSession session,RedirectAttributes redirectAttributes) {
+       session.invalidate();
+       redirectAttributes.addFlashAttribute("message","你已安全退出系统");
+       return "redirect:/";
+    }
+
+    /**
+     * 去登录后的页面
+     * @return
+     */
     @GetMapping("/home")
     public String home() {
         return "home";

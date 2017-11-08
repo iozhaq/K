@@ -24,7 +24,7 @@
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <img src="/static/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                        <span class="hidden-xs">李美苏</span>
+                        <span class="hidden-xs">${sessionScope.curr_account.userName}</span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
@@ -32,7 +32,7 @@
                             <img src="/static/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                             <p>
-                                李美苏
+                                ${sessionScope.curr_account.userName}
                                 <small>海外事业部</small>
                             </p>
                         </li>
@@ -42,7 +42,7 @@
                                 <a href="#" class="btn btn-default btn-flat">个人设置</a>
                             </div>
                             <div class="pull-right">
-                                <a href="#" class="btn btn-default btn-flat">安全退出</a>
+                                <a href="/logout" class="btn btn-default btn-flat">安全退出</a>
                             </div>
                         </li>
                     </ul>
