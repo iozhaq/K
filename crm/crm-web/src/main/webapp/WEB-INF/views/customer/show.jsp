@@ -31,11 +31,11 @@
                 <div class="box-header with-border">
                     <h3 class="box-title">客户资料</h3>
                     <div class="box-tools">
-                        <button class="btn btn-primary btn-sm"><i class="fa fa-arrow-left"></i> 返回列表</button>
-                        <button class="btn bg-purple btn-sm"><i class="fa fa-pencil"></i> 编辑</button>
-                        <button class="btn bg-orange btn-sm"><i class="fa fa-exchange"></i> 转交他人</button>
-                        <button class="btn bg-maroon btn-sm"><i class="fa fa-recycle"></i> 放入公海</button>
-                        <button class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i> 删除</button>
+                        <a href="javascript:history.back()" class="btn btn-primary btn-sm"><i class="fa fa-arrow-left"></i> 返回列表</a>
+                        <a href="/customer/my/${customer.id}/edit" class="btn bg-purple btn-sm"><i class="fa fa-pencil"></i> 编辑</a>
+                        <button id="tranBtn" class="btn bg-orange btn-sm"><i class="fa fa-exchange"></i> 转交他人</button>
+                        <button id="publicBtn" class="btn bg-maroon btn-sm"><i class="fa fa-recycle"></i> 放入公海</button>
+                        <button id="deleteBtn" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i> 删除</button>
                     </div>
                 </div>
                 <div class="box-body no-padding">
@@ -116,10 +116,81 @@
     <!-- 底部 -->
     <%@ include file="../include/footer.jsp"%>
 
+    <%--用户选择对话框（转交他人）--%>
+    <div class="modal fade" id="chooseUserModel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">请选择转入账号</h4>
+                </div>
+                <div class="modal-body">
+                    <select id="userSelect" class="form-control">
+                        <c:forEach items="${accountList}" var="account">
+                            <c:if test="${account.id != customer.accountId}">
+                                <option value="${account.id}">${account.userName} (${account.mobile})</option>
+                            </c:if>
+                        </c:forEach>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="saveTranBtn">确定</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
 </div>
 <!-- ./wrapper -->
 
 <%@include file="../include/js.jsp"%>
+<script src="/static/plugins/layer/layer.js"></script>
+<script>
+    $(function () {
+        var customerId = ${customer.id};
+
+        //删除客户
+        $("#deleteBtn").click(function(){
+           layer.confirm("确定要删除吗?",function (index) {
+               layer.close(index);
+               window.location.href = "/customer/my/"+customerId+"/delete";
+           });
+        });
+
+        //将客户放入公海
+        $("#publicBtn").click(function () {
+            layer.confirm("确定要将客户放入公海吗?",function (index) {
+                layer.close(index);
+                window.location.href = "/customer/my/"+customerId+"/public";
+            });
+        });
+
+        //转交他人
+        $("#tranBtn").click(function () {
+            $("#chooseUserModel").modal({
+                show:true,
+                backdrop:'static'
+            });
+        });
+        $("#saveTranBtn").click(function () {
+            var toAccountId = $("#userSelect").val();
+            var toAccountName = $("#userSelect option:selected").text();
+            layer.confirm("确定要将客户转交给"+toAccountName+"吗",function (index) {
+                layer.close(index);
+                window.location.href = "/customer/my/"+customerId+"/tran/"+toAccountId;
+            });
+        });
+
+
+
+
+
+    });
+
+
+</script>
 
 </body>
 </html>

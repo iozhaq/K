@@ -60,7 +60,15 @@
                     <h3 class="box-title">我的客户</h3>
                     <div class="box-tools pull-right">
                         <a href="/customer/my/new" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> 新增客户</a>
-                        <button class="btn btn-primary btn-sm"><i class="fa fa-file-excel-o"></i> 导出Excel</button>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-file-excel-o"></i> 导出Excel <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="/customer/my/export.xls">导出为xls文件</a></li>
+                                <li><a href="/customer/my/export.csv">导出为csv文件</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div class="box-body no-padding">

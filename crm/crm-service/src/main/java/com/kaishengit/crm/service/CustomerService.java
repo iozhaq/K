@@ -4,6 +4,8 @@ import com.github.pagehelper.PageInfo;
 import com.kaishengit.crm.entity.Account;
 import com.kaishengit.crm.entity.Customer;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
 /**
@@ -43,4 +45,43 @@ public interface CustomerService {
      * @return
      */
     Customer findCustomerById(Integer id);
+
+    /**
+     * 删除指定的客户
+     * @param customer
+     */
+    void deleteCustomer(Customer customer);
+
+    /**
+     * 将指定客户放入公海
+     * @param customer
+     */
+    void publicCustomer(Customer customer);
+
+    /**
+     * 编辑客户
+     * @param customer
+     */
+    void editCustomer(Customer customer);
+
+    /**
+     * 转交客户给其他账号
+     * @param customer 客户对象
+     * @param toAccountId 转入账号ID
+     */
+    void tranCustomer(Customer customer, Integer toAccountId);
+
+    /**
+     * 导出客户资料文件为csv格式
+     * @param outputStream
+     * @param account
+     */
+    void exportCsvFileToOutputStream(OutputStream outputStream, Account account) throws IOException;
+
+    /**
+     * 导出客户资料文件为xls格式
+     * @param outputStream
+     * @param account
+     */
+    void exportXlsFileToOutputStream(OutputStream outputStream, Account account) throws IOException;
 }

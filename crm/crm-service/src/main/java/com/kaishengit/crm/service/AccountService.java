@@ -65,4 +65,10 @@ public interface AccountService {
      * @throws ServiceException
      */
     void deleteEmployeeById(Integer id) throws ServiceException;
+
+    /**
+     * 获取所有的账号
+     * @return
+     */
+    List<Account> findAllAccount();
 }
