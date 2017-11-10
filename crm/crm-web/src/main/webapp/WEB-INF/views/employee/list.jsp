@@ -17,7 +17,7 @@
     <!-- =============================================== -->
 
     <jsp:include page="../include/sider.jsp">
-        <jsp:param name="menu" value="home"/>
+        <jsp:param name="menu" value="employee"/>
     </jsp:include>
 
     <!-- =============================================== -->
