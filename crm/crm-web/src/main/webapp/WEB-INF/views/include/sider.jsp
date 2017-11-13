@@ -33,16 +33,13 @@
                 </ul>
             </li>
             <!-- 工作记录 -->
-            <li class="treeview">
+            <li class="treeview ${fn:startsWith(param.menu, 'sales_') ? 'active' : ''}">
                 <a href="#">
-                    <i class="fa fa-bars"></i> <span>工作记录</span>
-                    <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
+                    <i class="fa fa-bars"></i> <span>销售机会</span>
+                    <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="/recode/my"><i class="fa fa-circle-o"></i> 我的记录</a></li>
-                    <li><a href="/recode/public"><i class="fa fa-circle-o"></i> 公共记录</a></li>
+                    <li class="${param.menu == 'sales_my' ? 'active' : ''}"><a href="/sales/my"><i class="fa fa-circle-o"></i> 我的机会</a></li>
                 </ul>
             </li>
             <!-- 待办事项 -->

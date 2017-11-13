@@ -232,7 +232,7 @@ public class CustomerServiceImpl implements CustomerService {
         outputStream.close();
     }
 
-    private List<Customer> findAllCustomerByAccountId(Account account) {
+    public List<Customer> findAllCustomerByAccountId(Account account) {
         CustomerExample customerExample = new CustomerExample();
         customerExample.createCriteria().andAccountIdEqualTo(account.getId());
         List<Customer> customerList = customerMapper.selectByExample(customerExample);
