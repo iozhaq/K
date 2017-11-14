@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--将Job类放入Spring容器-->
+    <bean id="springQuartzJob" class="com.kaishengit.crm.jobs.SpringQuartzJob"/>
+
+    <!--定义JobDetail-->
+    <bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!--Job类-->
+        <property name="targetObject" ref="springQuartzJob"/>
+        <!--job类中的任务方法-->
+        <property name="targetMethod" value="doSomething"/>
+    </bean>
+
+    <!--定义Trigger-->
+    <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <!--定义JobDetail-->
+        <property name="jobDetail" ref="jobDetail"/>
+        <!--Cron表达式-->
+        <property name="cronExpression" value="0/2 * * * * ? *"/>
+    </bean>
+
+    <!--定义调度器-->
+    <bean id="schedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <!--<property name="triggers">
+            <list>
+                <ref bean="cronTrigger"></ref>
+            </list>
+        </property>-->
+    </bean>
+
+
+</beans>
