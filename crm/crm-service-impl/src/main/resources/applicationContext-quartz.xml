@@ -14,21 +14,41 @@
         <property name="targetMethod" value="doSomething"/>
     </bean>
 
+    <bean id="quartzJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <!--定义为循环任务-->
+        <property name="durability" value="true"/>
+        <!--Quartz Job的实现类完全限定名-->
+        <property name="jobClass" value="com.kaishengit.crm.jobs.MyQuartzJob"/>
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="accountId" value="9000"/>
+            </map>
+        </property>
+    </bean>
+
     <!--定义Trigger-->
     <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <!--定义JobDetail-->
-        <property name="jobDetail" ref="jobDetail"/>
+        <property name="jobDetail" ref="quartzJob"/>
         <!--Cron表达式-->
-        <property name="cronExpression" value="0/2 * * * * ? *"/>
+        <property name="cronExpression" value="0/30 * * * * ? *"/>
     </bean>
 
     <!--定义调度器-->
     <bean id="schedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
-        <!--<property name="triggers">
+        <!--配置数据库连接池-->
+        <property name="dataSource" ref="dataSource"/>
+        <!--事务管理器-->
+        <property name="transactionManager" ref="transactionManager"/>
+        <!--quartz.properties文件的位置-->
+        <property name="configLocation" value="classpath:quartz.properties"/>
+        <!--是否覆盖数据库中已有的任务-->
+        <property name="overwriteExistingJobs" value="true"/>
+        <property name="triggers">
             <list>
                 <ref bean="cronTrigger"></ref>
             </list>
-        </property>-->
+        </property>
     </bean>
 
 
