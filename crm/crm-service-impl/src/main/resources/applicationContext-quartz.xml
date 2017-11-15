@@ -46,7 +46,7 @@
         <property name="overwriteExistingJobs" value="true"/>
         <property name="triggers">
             <list>
-                <ref bean="cronTrigger"></ref>
+                <!--<ref bean="cronTrigger"></ref>-->
             </list>
         </property>
     </bean>
