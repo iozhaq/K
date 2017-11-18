@@ -21,7 +21,7 @@ public class FastDfsTest {
     @Test
     public void uploadFile() throws IOException, MyException {
         Properties properties = new Properties();
-        properties.setProperty(ClientGlobal.PROP_KEY_TRACKER_SERVERS,"192.168.135.30:22122,192.168.135.31:22122");
+        properties.setProperty(ClientGlobal.PROP_KEY_TRACKER_SERVERS,"192.168.135.30:22122");
         //初始化配置
         ClientGlobal.initByProperties(properties);
 
@@ -30,7 +30,7 @@ public class FastDfsTest {
         //存储服务器的客户端
         StorageClient storageClient = new StorageClient(trackerServer,null);
 
-        InputStream inputStream = new FileInputStream("D:/new.jpg");
+        InputStream inputStream = new FileInputStream("D:/11.jpg");
         byte[] bytes = IOUtils.toByteArray(inputStream);
 
         String[] results = storageClient.upload_file(bytes,"jpg",null);

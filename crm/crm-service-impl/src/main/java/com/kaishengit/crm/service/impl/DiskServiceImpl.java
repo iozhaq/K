@@ -3,15 +3,18 @@ package com.kaishengit.crm.service.impl;
 import com.kaishengit.crm.entity.Disk;
 import com.kaishengit.crm.example.DiskExample;
 import com.kaishengit.crm.exception.ServiceException;
+import com.kaishengit.crm.files.FileStore;
 import com.kaishengit.crm.mapper.DiskMapper;
 import com.kaishengit.crm.service.DiskService;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -31,6 +34,10 @@ public class DiskServiceImpl implements DiskService {
 
     @Autowired
     private DiskMapper diskMapper;
+
+    @Autowired
+    @Qualifier("fastDfsFileStore")
+    private FileStore fileStore;
 
     @Value("${uploadfile.path}")
     private String saveFilePath;
@@ -95,27 +102,14 @@ public class DiskServiceImpl implements DiskService {
         disk.setFileSize(FileUtils.byteCountToDisplaySize(fileSize));
 
 
-        //重命名
-        String newFileName = UUID.randomUUID() + fileName.substring(fileName.lastIndexOf("."));
-
+        String newFileName = null;
         try {
-            //本地磁盘
-            FileOutputStream outputStream = new FileOutputStream(new File(saveFilePath, newFileName));
-            IOUtils.copy(inputStream, outputStream);
-            outputStream.flush();
-            outputStream.close();
-            inputStream.close();
-        } catch (IOException ex) {
-            throw new ServiceException(ex,"上传文件到本地磁盘异常");
+            newFileName = fileStore.saveFile(inputStream,fileName);
+        } catch (IOException e) {
+            throw new ServiceException(e,"保存文件异常");
         }
-
         disk.setSaveName(newFileName);
         diskMapper.insertSelective(disk);
-        //FastDFS
-        //cloud
-
-
-
     }
 
     /**
@@ -136,7 +130,7 @@ public class DiskServiceImpl implements DiskService {
         disk.setDownloadCount(disk.getDownloadCount() +1);
         diskMapper.updateByPrimaryKeySelective(disk);
 
-        FileInputStream inputStream = new FileInputStream(new File(saveFilePath,disk.getSaveName()));
-        return inputStream;
+        byte[] bytes = fileStore.getFile(disk.getSaveName());
+        return new ByteArrayInputStream(bytes);
     }
 }
