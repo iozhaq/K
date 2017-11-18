@@ -25,6 +25,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 客户管理业务层
@@ -237,5 +238,15 @@ public class CustomerServiceImpl implements CustomerService {
         customerExample.createCriteria().andAccountIdEqualTo(account.getId());
         List<Customer> customerList = customerMapper.selectByExample(customerExample);
         return customerList;
+    }
+
+    /**
+     * 查询各个星级客户的数量
+     *
+     * @return
+     */
+    @Override
+    public List<Map<String, Object>> findCustomerCountByLevel() {
+        return customerMapper.findCustomerCountByLevel();
     }
 }
