@@ -16,6 +16,7 @@
         <module>../crm-service</module>
         <module>../crm-service-impl</module>
         <module>../crm-web</module>
+        <module>../weixin</module>
     </modules>
 
     <properties>
