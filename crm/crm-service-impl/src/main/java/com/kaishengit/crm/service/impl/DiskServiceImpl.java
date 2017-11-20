@@ -36,7 +36,7 @@ public class DiskServiceImpl implements DiskService {
     private DiskMapper diskMapper;
 
     @Autowired
-    @Qualifier("fastDfsFileStore")
+    @Qualifier("qiniuFileStore")
     private FileStore fileStore;
 
     @Value("${uploadfile.path}")
