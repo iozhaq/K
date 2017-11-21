@@ -14,6 +14,8 @@ import com.kaishengit.crm.mapper.AccountDeptMapper;
 import com.kaishengit.crm.mapper.AccountMapper;
 import com.kaishengit.crm.mapper.DeptMapper;
 import com.kaishengit.crm.service.AccountService;
+import com.kaishengit.weixin.WeiXinUtil;
+import com.kaishengit.weixin.exception.WeixinException;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -22,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +50,8 @@ public class AccountServiceImpl implements AccountService {
     private DeptMapper deptMapper;
     @Autowired
     private AccountDeptMapper accountDeptMapper;
+    @Autowired
+    private WeiXinUtil weiXinUtil;
 
 
     /**
@@ -83,6 +88,7 @@ public class AccountServiceImpl implements AccountService {
      * @throws ServiceException 例如添加部门名称已存在
      */
     @Override
+    @Transactional(rollbackFor = RuntimeException.class)
     public void saveNewDept(String deptName) throws ServiceException {
         //判断deptName是否存在
         DeptExample example = new DeptExample();
@@ -102,6 +108,9 @@ public class AccountServiceImpl implements AccountService {
         dept.setpId(COMPANY_ID);
 
         deptMapper.insertSelective(dept);
+
+        //发送到微信
+        weiXinUtil.createDept(dept.getId(),COMPANY_ID,deptName);
 
         logger.info("添加新部门 {}",deptName);
     }
@@ -160,7 +169,7 @@ public class AccountServiceImpl implements AccountService {
      * @param deptIds   所属部门ID，可以多个
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = RuntimeException.class)
     public void saveNewEmployee(String userName, String mobile, String password, Integer[] deptIds) throws ServiceException {
         //1.验证手机号是否被使用
         AccountExample accountExample = new AccountExample();
@@ -186,6 +195,9 @@ public class AccountServiceImpl implements AccountService {
             accountDeptKey.setDeptId(deptId);
             accountDeptMapper.insert(accountDeptKey);
         }
+
+        //4.添加账号到微信
+        weiXinUtil.createAccount(account.getId(),userName,mobile, Arrays.asList(deptIds));
 
         logger.info("添加新账号 {}",userName);
     }
