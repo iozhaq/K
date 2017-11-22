@@ -193,7 +193,7 @@ public class WeiXinUtil {
         idString = idString.substring(0,idString.lastIndexOf("|"));
 
         Map<String, Object> data = new HashMap<String, Object>();
-        data.put("touser", idString);
+        data.put("touser", "fankay");
         data.put("msgtype", "text");
         data.put("agentid", agentId);
         Map<String, String> messageMap = new HashMap<String, String>();

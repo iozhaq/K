@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jms="http://www.springframework.org/schema/jms"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd">
+
+    <!--自动扫描-->
+    <context:component-scan base-package="com.kaishengit"/>
+
+    <!--ActiveMQ ConnectionFactory-->
+    <bean id="activeMQConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="tcp://localhost:61616"/>
+    </bean>
+
+    <!--Spring JMS ConnectionFactory-->
+    <bean id="connectionFactory" class="org.springframework.jms.connection.SingleConnectionFactory">
+        <property name="targetConnectionFactory" ref="activeMQConnectionFactory"/>
+    </bean>
+
+    <!--JMSTemplate-->
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <!--配置链接工厂-->
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <!--选配：目的地名称,如果没有配置，则在发送时指定-->
+        <property name="defaultDestinationName" value="Spring-Queue"/>
+    </bean>
+
+
+
+    <!--开启基于注解的JMS接收模式-->
+    <bean id="jmsListenerContainerFactory" class="org.springframework.jms.config.DefaultJmsListenerContainerFactory">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="concurrency" value="5-15"/>
+    </bean>
+    <jms:annotation-driven container-factory="jmsListenerContainerFactory"/>
+
+
+
+    <!--Topic的主题对象-->
+    <!--<bean id="destination" class="org.apache.activemq.command.ActiveMQTopic">
+        <constructor-arg name="name" value="spring-Topic"/>
+    </bean>-->
+
+    <!--配置监听器容器-->
+    <!--<bean id="messageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        &lt;!&ndash;<property name="destinationName" value="spring-Topic"/>&ndash;&gt;
+        <property name="destination" ref="destination"/>
+        <property name="messageListener" ref="quereConsuerm"/>
+    </bean>-->
+
+
+</beans>
