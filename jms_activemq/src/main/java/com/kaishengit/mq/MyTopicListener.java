@@ -7,14 +7,18 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 
-@Component
-public class QuereConsuerm implements MessageListener {
 
+/**
+ * pub/sub 监听器
+ * @author fankay
+ */
+@Component
+public class MyTopicListener implements MessageListener {
     @Override
     public void onMessage(Message message) {
         TextMessage textMessage = (TextMessage) message;
         try {
-            System.out.println("@@@@@@@@@ " + textMessage.getText());
+            System.out.println("From Topic Message -> " + textMessage.getText());
         } catch (JMSException e) {
             e.printStackTrace();
         }

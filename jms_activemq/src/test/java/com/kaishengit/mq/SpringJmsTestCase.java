@@ -23,19 +23,20 @@ public class SpringJmsTestCase {
     private JmsTemplate jmsTemplate;
 
     @Test
-    public void sendMessageToQueue() {
-        jmsTemplate.send(new MessageCreator() {
+    public void sendMessageToQueue() throws IOException {
+        jmsTemplate.send("message-queue",new MessageCreator() {
             @Override
             public Message createMessage(Session session) throws JMSException {
-                TextMessage textMessage = session.createTextMessage("Hello,Spring_JMS");
+                TextMessage textMessage = session.createTextMessage("Hello,Spring_JMS_queue");
                 return textMessage;
             }
         });
+        System.in.read();
     }
 
     @Test
     public void sendMessageToTopic() throws IOException {
-        ActiveMQTopic topic = new ActiveMQTopic("spring-Topic");
+        ActiveMQTopic topic = new ActiveMQTopic("message-topic");
         jmsTemplate.send(topic, new MessageCreator() {
             @Override
             public Message createMessage(Session session) throws JMSException {
@@ -43,7 +44,7 @@ public class SpringJmsTestCase {
                 return textMessage;
             }
         });
-        System.in.read();
+        //System.in.read();
     }
 
 
