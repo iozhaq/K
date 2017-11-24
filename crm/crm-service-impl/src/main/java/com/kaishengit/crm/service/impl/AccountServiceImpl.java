@@ -247,4 +247,15 @@ public class AccountServiceImpl implements AccountService {
         }
         return null;
     }
+
+    /**
+     * 根据账号ID获取部门列表
+     *
+     * @param accountId
+     * @return
+     */
+    @Override
+    public List<Dept> findDeptByAccountId(Integer accountId) {
+        return deptMapper.findDeptByAccountId(accountId);
+    }
 }

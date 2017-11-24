@@ -15,6 +15,9 @@
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="shiroRealm"/>
         <property name="cacheManager" ref="cacheManager"/>
+        <!--rememberMe管理器-->
+        <property name="rememberMeManager" ref="rememberMeManager"/>
+        <!--<property name="sessionManager" ref="sessionManager"/>-->
     </bean>
 
     <!--配置表单鉴别器-->
@@ -22,6 +25,26 @@
         <property name="usernameParam" value="mobile"/>
         <property name="passwordParam" value="password"/>
         <property name="loginUrl" value="/"/>
+    </bean>
+
+    <!--会话管理器-->
+    <!-- 会话管理器 -->
+    <!--<bean id="sessionManager" class="org.apache.shiro.session.mgt.DefaultSessionManager">
+        <property name="globalSessionTimeout" value="1800000"/>
+        <property name="deleteInvalidSessions" value="true"/>
+        <property name="sessionValidationSchedulerEnabled" value="true"/>
+    </bean>-->
+
+    <!--cookie设定-->
+    <bean id="simpleCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg name="name" value="rememberMe"/>
+        <property name="httpOnly" value="true"/>
+        <property name="maxAge" value="604800"/>
+    </bean>
+    <!--rememberMe管理器-->
+    <bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+        <property name="cookie" ref="simpleCookie"/>
+        <property name="cipherKey" value="#{T(org.apache.shiro.codec.Base64).decode('4AvVhmFLUs0KTA3Kprsdag==')}"/>
     </bean>
 
     <!--配置shiroFilter-->
@@ -34,22 +57,28 @@
         <property name="unauthorizedUrl" value="/static/html/40x.html"/>
         <!--配置securityManager-->
         <property name="securityManager" ref="securityManager"/>
-        <!--配置表单鉴别器-->
+        <!--配置自定义Filter-->
         <property name="filters">
             <map>
                 <entry key="authc" value-ref="formAuthenticationFilter"/>
+                <entry key="roles">
+                    <bean class="com.kaishengit.crm.auth.MyRolesFilter"/>
+                </entry>
             </map>
         </property>
         <!--访问路径和角色的配置关系-->
         <property name="filterChainDefinitions">
             <value>
                 /static/** = anon
+                /logout = anon
                 /favicon.ico = anon
-                /** = authc
+                /employee = roles["系统管理部,杭州研发中心"]
+                /** = user
             </value>
         </property>
     </bean>
 
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
 
 
 </beans>

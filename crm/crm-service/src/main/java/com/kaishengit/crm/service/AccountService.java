@@ -78,4 +78,11 @@ public interface AccountService {
      * @return
      */
     Account findByMobile(String mobile);
+
+    /**
+     * 根据账号ID获取部门列表
+     * @param accountId
+     * @return
+     */
+    List<Dept> findDeptByAccountId(Integer accountId);
 }
