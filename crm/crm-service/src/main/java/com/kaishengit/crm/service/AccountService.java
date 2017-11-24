@@ -71,4 +71,11 @@ public interface AccountService {
      * @return
      */
     List<Account> findAllAccount();
+
+    /**
+     * 根据手机号查询Account
+     * @param mobile
+     * @return
+     */
+    Account findByMobile(String mobile);
 }

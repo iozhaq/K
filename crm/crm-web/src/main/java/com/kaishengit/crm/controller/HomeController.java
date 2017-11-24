@@ -1,8 +1,11 @@
 package com.kaishengit.crm.controller;
 
-import com.kaishengit.crm.entity.Account;
-import com.kaishengit.crm.exception.AuthenticationException;
 import com.kaishengit.crm.service.AccountService;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.hash.Md5Hash;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,14 +33,15 @@ public class HomeController {
      */
     @PostMapping("/")
     public String login(String mobile, String password,
-                        RedirectAttributes redirectAttributes,
-                        HttpSession session) {
+                        RedirectAttributes redirectAttributes) {
         try {
-            Account account = accountService.login(mobile, password);
-            session.setAttribute("curr_account",account);
+            Subject subject = SecurityUtils.getSubject();
+            UsernamePasswordToken usernamePasswordToken =
+                    new UsernamePasswordToken(mobile,new Md5Hash(password).toString());
+            subject.login(usernamePasswordToken);
             return "redirect:/home";
         } catch (AuthenticationException ex) {
-            redirectAttributes.addFlashAttribute("message",ex.getMessage());
+            redirectAttributes.addFlashAttribute("message","账号或密码错误");
             return "redirect:/";
         }
     }
@@ -48,7 +52,7 @@ public class HomeController {
      */
     @GetMapping("/logout")
     public String logout(HttpSession session,RedirectAttributes redirectAttributes) {
-       session.invalidate();
+       SecurityUtils.getSubject().logout();
        redirectAttributes.addFlashAttribute("message","你已安全退出系统");
        return "redirect:/";
     }
