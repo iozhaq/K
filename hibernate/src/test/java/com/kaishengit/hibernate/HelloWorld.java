@@ -91,8 +91,137 @@ public class HelloWorld {
         for(Product product : productList) {
             System.out.println(product);
         }
-        
+
         session.getTransaction().commit();
     }
+
+    @Test
+    public void get() {
+        Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+
+        Product product = (Product) session.get(Product.class,399);
+        System.out.println(product == null);
+
+        session.getTransaction().commit();
+    }
+
+    @Test
+    public void load() {
+        Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+
+        Product product = (Product) session.load(Product.class,3);
+
+
+
+        session.getTransaction().commit();
+        System.out.println(product);
+
+    }
+
+    @Test
+    public void saveToDb() {
+        Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+
+        Product product = new Product();
+        product.setProductName("雷蛇机械键盘X99");
+        product.setProductInventory(100);
+
+        session.persist(product);
+        System.out.println("ID:" + product.getId());
+
+        session.getTransaction().commit();
+    }
+
+    @Test
+    public void updateMethod() {
+        Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+
+        Product product = (Product) session.get(Product.class,43);
+        System.out.println(product);
+
+        session.getTransaction().commit();
+
+        Session session2 = HibernateUtil.getSession();
+        session2.beginTransaction();
+
+        product.setProductInventory(300);
+        session2.update(product);
+
+        session2.getTransaction().commit();
+    }
+
+    @Test
+    public void saveOrUpdate() {
+        Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+
+        Product product = new Product();
+        product.setProductName("麦克风100-9型");
+        product.setProductInventory(100);
+
+        session.saveOrUpdate(product);
+
+        session.getTransaction().commit();
+
+        Session session2 = HibernateUtil.getSession();
+        session2.beginTransaction();
+
+        product.setProductInventory(250);
+        session2.saveOrUpdate(product);
+
+        session2.getTransaction().commit();
+
+    }
+
+    @Test
+    public void merge() {
+        Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+
+        Product product = (Product) session.get(Product.class,49);
+
+        session.getTransaction().commit();
+
+        Session session2 = HibernateUtil.getSession();
+        session2.beginTransaction();
+
+        product.setProductInventory(250);
+        session2.merge(product);
+
+        session2.getTransaction().commit();
+
+    }
+
+    @Test
+    public void clear() {
+        Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+
+        Product product = (Product) session.get(Product.class,49);
+
+        session.clear();
+
+        product.setProductInventory(300);
+
+        session.getTransaction().commit();
+    }
+
+    @Test
+    public void flush() {
+        Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+
+        Product product = (Product) session.get(Product.class,49);
+        product.setProductInventory(350);
+
+        session.flush();
+
+        session.getTransaction().commit();
+    }
+
 
 }
